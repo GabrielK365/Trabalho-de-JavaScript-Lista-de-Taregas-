@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style>
+        body {
+            background-color: black;
+        }
+        .caixa1 {
+            text-align: center;
+            font-family: 'Helvetica Neue', 'Courier New', Courier, monospace, sans-serif;
+            color: white;
+            width: 100%;
+            height: 120px;
+        }
+        .caixa2 {
+            overflow: auto;
+            color: white;
+            width: 50%;
+            margin: auto;
+            font-family: 'Helvetica Neue', 'Courier New', Courier, monospace, sans-serif;
+            border-collapse: collapse;
+            border: 2px solid white; /* Borda branca ao redor da tabela */
+        }
+        .caixa2 th, .caixa2 td {
+            padding: 10px;
+            text-align: center;
+        }
+        .delete-btn {
+            background-color: palevioletred;
+            color: white;
+            cursor: pointer;
+            width: 40px;
+            height: 20px;
+            border-color: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="caixa1">
+        <h1>Lista de Tarefas</h1>
+        <input type="text" id="espaco1" placeholder="Nova tarefa...">
+        <button id="botao1" onclick="adicionar()">Add+</button>
+    </div>
+    <table class="caixa2" id="tabela">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Tarefa</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        var contador = 1;
+
+        function adicionar() {
+            var espaco1 = document.getElementById("espaco1").value.trim();
+            if (espaco1) {
+                var tabela = document.getElementById("tabela").getElementsByTagName('tbody')[0];
+                var Linha1 = tabela.insertRow();
+
+                var Numero1 = Linha1.insertCell(0);
+                Numero1.innerHTML = contador++;
+
+                var Tarefa1 = Linha1.insertCell(1);
+                Tarefa1.innerHTML = espaco1;
+
+                var Acao1 = Linha1.insertCell(2);
+                var Deletar1 = document.createElement("button");
+                Deletar1.className = "delete-btn";
+                Deletar1.innerHTML = "X";
+                Deletar1.onclick = function() {
+                    tabela.deleteRow(Linha1.rowIndex - 1);
+                    atualizarNumeros();
+                };
+                Acao1.appendChild(Deletar1);
+
+                // Limpa o campo de entrada
+                document.getElementById("espaco1").value = "";
+            }
+        }
+
+        function atualizarNumeros() {
+            var linhas = document.querySelectorAll('#tabela tbody tr');
+            contador = 1;
+            linhas.forEach(function(linha) {
+                linha.cells[0].innerHTML = contador++;
+            });
+        }
+    </script>
+</body>
+</html>
